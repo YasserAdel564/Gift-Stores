@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#CE0608</color>
+    <color name="colorPrimaryDark">#CE0608</color>
+    <color name="colorAccent">#CE0608</color>
+
+    <color name="colorWhite">#FFFF</color>
+
+    <color name="colorTextDark">#000</color>
+    <color name="colorTextWhite">#FFF</color>
+    <color name="lightGray">#F6F6F6</color>
+    <color name="normalGray">#BBB7B7</color>
+    <color name="colorFacebook">#4266B2</color>
+    <color name="colorGoogle">#F34A38</color>
+    <color name="colorBackground">#00000029</color>
+
+
+
+</resources>

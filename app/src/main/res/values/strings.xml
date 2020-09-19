@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">Gift</string>
+
+    <string name="arabic_language">العربيه</string>
+    <string name="english_labguage">English</string>
+
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="confirm">Confirm</string>
+    <string name="send">Send</string>
+
+    <string name="login">Login</string>
+    <string name="register">Create new Account</string>
+    <string name="user_name">User Name</string>
+    <string name="user_phone">Phone Number</string>
+
+    <string name="have_account">Have an Account ?</string>
+    <string name="dont_have_account">Don’t Have an Account ? </string>
+
+    <string name="login_underline"><u> Login</u></string>
+    <string name="register_underline"><u> Create new Account</u></string>
+
+
+    <string name="intro_description1">Welcome to Gift App ! You Can Request anything From Your Favourite
+    Store and With best Prices and High Quality of Products </string>
+    <string name="intro_description2">The fastest delivery in Egypt , Try it Now and Enjoy with Discounts </string>
+
+    <string name="otp_title_1">Confirm Your Number</string>
+    <string name="otp_title_2">Enter the Code Here , Please</string>
+    <string name="code">Enter Code Here</string>
+
+
+    <string name="nav_drawer_sections">Sections</string>
+    <string name="nav_drawer_fav">Favourites</string>
+    <string name="nav_drawer_privacy">Privacy</string>
+    <string name="nav_drawer_share">Share</string>
+    <string name="nav_drawer_logout">Logout</string>
+    <string name="nav_drawer_login">Login</string>
+    <string name="nav_drawer_guest">Guest</string>
+
+
+    <string name="login_with_facebook">Login with FaceBook</string>
+    <string name="login_with_google">Login with Google</string>
+
+
+    <string name="no_connection">No Internet Connection</string>
+    <string name="general_error">Error,Please Try Again</string>
+    <string name="success">Success</string>
+
+    <string name="stores">Stores</string>
+    <string name="products">Products</string>
+
+
+    <string name="empty_stores">No Stores Available</string>
+    <string name="empty_departments">No Departments Available</string>
+    <string name="empty_products">No Products Available</string>
+    <string name="empty_fav">No Favourites Available</string>
+
+    <string name="privacy_text">This application is not responsible for any wrong use by users and it does not ask users for any financial compensation for registration, it is a completely free application and is not responsible for any accounts or financial transfers made using the name of the application</string>
+
+
+    <string name="otp_empty">The Code is Empty</string>
+    <string name="otp_short_length">The Code Should be equal 6 Characters </string>
+
+
+    <string name="phone_empty">The Phone Number is Empty</string>
+    <string name="phone_short_length">The Phone Number Should be equal 11 Characters </string>
+
+
+    <string name="name_empty">The User Name is Empty</string>
+    <string name="message_empty">The Message is Empty</string>
+    <string name="chat_empty">No Messages Available</string>
+
+    <string name="chat"> Chatting with Moderators</string>
+    <string name="write_message">Write Message</string>
+
+    <string name="should_Login">You Should Login </string>
+
+
+</resources>

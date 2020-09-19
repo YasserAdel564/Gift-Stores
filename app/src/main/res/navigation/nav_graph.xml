@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/LanguageFragment">
+
+    <fragment
+        android:id="@+id/SplashFragment"
+        android:name="com.gift.app.ui.splash.Splash"
+        android:label="splash_fragment"
+        tools:layout="@layout/fragment_splash">
+
+        <action
+            android:id="@+id/action_from_SplashFragment_to_LanguageFragment"
+            app:destination="@id/IntroFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/LanguageFragment"
+        android:name="com.gift.app.ui.language.LanguageFragment"
+        android:label="language_fragment"
+        tools:layout="@layout/language_fragment">
+        <action
+            android:id="@+id/action_from_languageFragment_to_introFragment"
+            app:destination="@id/IntroFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/IntroFragment"
+        android:name="com.gift.app.ui.intro.IntroFragment"
+        android:label="intro_fragment"
+        tools:layout="@layout/fragment_intro_host">
+
+        <action
+            android:id="@+id/action_from_introFragment_to_DepartmentsFragment"
+            app:destination="@id/DepartmentsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/DepartmentsFragment"
+        android:name="com.gift.app.ui.Home.departments.DepartmentsFragment"
+        android:label="departments_fragment"
+        tools:layout="@layout/departments_fragment">
+
+
+        <action
+            android:id="@+id/action_from_DepartmentsFragment_to_StoresFragment"
+            app:destination="@id/StoresFragment" />
+
+
+        <action
+            android:id="@+id/action_from_DepartmentsFragment_to_ChattingFragment"
+            app:destination="@id/ChattingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/StoresFragment"
+        android:name="com.gift.app.ui.Home.stores.StoresFragment"
+        android:label="stores_fragment"
+        tools:layout="@layout/stores_fragment">
+
+
+        <action
+            android:id="@+id/action_from_StoresFragment_to_ProductsFragment"
+            app:destination="@id/ProductsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ProductsFragment"
+        android:name="com.gift.app.ui.Home.products.ProductsFragment"
+        android:label="products_fragment"
+        tools:layout="@layout/products_fragment" />
+
+
+    <fragment
+        android:id="@+id/LoginFragment"
+        android:name="com.gift.app.ui.auth.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment">
+
+        <action
+            android:id="@+id/action_from_loginFragment_to_registerFragment"
+            app:destination="@id/RegisterFragment" />
+        <action
+            android:id="@+id/action_from_loginFragment_to_otpFragment"
+            app:destination="@id/OtpFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/RegisterFragment"
+        android:name="com.gift.app.ui.auth.register.RegisterFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/register_fragment">
+
+        <action
+            android:id="@+id/action_from_registerFragment_to_loginFragment"
+            app:destination="@id/LoginFragment" />
+
+        <action
+            android:id="@+id/action_from_registerFragment_to_otpFragment"
+            app:destination="@id/OtpFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/OtpFragment"
+        android:name="com.gift.app.ui.auth.otp.OtpFragment"
+        android:label="otp_fragment"
+        tools:layout="@layout/otp_fragment">
+
+        <action
+            android:id="@+id/action_from_otpFragment_to_homeFragment"
+            app:destination="@id/DepartmentsFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/PrivacyFragment"
+        android:name="com.gift.app.ui.privacy.PrivacyFragment"
+        android:label="privacy_fragment"
+        tools:layout="@layout/privacy_fragment" />
+
+    <fragment
+        android:id="@+id/FavouritesFragment"
+        android:name="com.gift.app.ui.favourites.FavouritesFragment"
+        android:label="favourites_fragment"
+        tools:layout="@layout/favourites_fragment">
+
+        <action
+            android:id="@+id/action_from_favFragment_to_productsFragment"
+            app:destination="@id/ProductsFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/ChattingFragment"
+        android:name="com.gift.app.ui.chat.ChatFragment"
+        android:label="chat_fragment"
+        tools:layout="@layout/chat_fragment" />
+
+</navigation>

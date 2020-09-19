@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gift</string>
+
+    <string name="arabic_language">العربيه</string>
+    <string name="english_labguage">English</string>
+
+    <string name="next">التالي</string>
+    <string name="skip">تخطي</string>
+    <string name="send">إرسال</string>
+
+    <string name="confirm">تأكيد</string>
+    <string name="login">تسجيل دخول</string>
+    <string name="register">انشاء حساب</string>
+
+    <string name="user_name">اسم المستخدم</string>
+    <string name="user_phone">رقم الموبايل</string>
+    <string name="have_account">لديك حساب بالفعل؟ </string>
+    <string name="dont_have_account">ليس لديك حساب؟</string>
+
+    <string name="login_underline"><u> تسجيل دخول  </u></string>
+    <string name="register_underline"><u> انشاء حساب </u></string>
+
+
+    <string name="intro_description1">مرحبًا بكم في تطبيق Gift ! يمكنك طلب أي منتج من منتجاتك المفضلة بأقل الاسعار وافضل جودة للمنتجات</string>
+    <string name="intro_description2">اسرع دليفري ف مصر، جربه الأن واستمتع بالعروض والخصومات</string>
+
+    <string name="otp_title_1">تأكيد رقم الموبايل</string>
+    <string name="otp_title_2">أدخل كود التفعيل الذي تم إرساله لك</string>
+    <string name="code"> ادخل الكود هنا</string>
+
+
+    <string name="nav_drawer_sections">الأقسام</string>
+    <string name="nav_drawer_fav">المفضلة</string>
+    <string name="nav_drawer_privacy">سياسة الخصوصية</string>
+    <string name="nav_drawer_share">مشاركة التطبيق</string>
+    <string name="nav_drawer_logout">تسجيل خروج</string>
+    <string name="nav_drawer_login">تسجيل الدخول</string>
+    <string name="nav_drawer_guest">زائر</string>
+
+    <string name="login_with_facebook">تسجيل الدخول بفيسبوك</string>
+    <string name="login_with_google">تسجيل الدخول بجوجل</string>
+
+    <string name="no_connection">لايوجد اتصال بالانترنت</string>
+    <string name="general_error">حدث خطأ ما برجاء المحاوله مره اخري</string>
+    <string name="success">تم بنجاح</string>
+
+    <string name="stores">المتاجر</string>
+    <string name="products">المنتجات</string>
+
+    <string name="empty_stores">لايوجد متاجر متوفره</string>
+    <string name="empty_departments">لايوجد أقسام متوفره</string>
+    <string name="empty_products">لايوجد منتجات متوفره</string>
+    <string name="empty_fav">لايوجد مفضله لديك</string>
+
+    <string name="privacy_text">هذا التطبيق غير مسؤول عن اي استخدام خطأ من قبل المستخدمين ولايطلب من المستخدمين اي مقابل مادي للتسجيل فهو تطبيق مجاني بالكامل وغير مسؤول عن اي حسابات او تحوبلات ماليه تتم باستخدام اسم التطبيق</string>
+
+
+    <string name="otp_empty">الحقل فارغ</string>
+    <string name="otp_short_length">يجب ان يحتوي الكود ع 6 خانات</string>
+
+
+    <string name="phone_empty">رقم الهاتف فارغ</string>
+    <string name="phone_short_length">يجب ان يتكون رقم الهاتف من 11 خانه </string>
+    <string name="name_empty">اسم المستخدم فارغ</string>
+
+    <string name="chat">محادثه مع الإداره</string>
+
+    <string name="message_empty">حقل الرساله فارغ</string>
+    <string name="chat_empty">لا توجد رسائل سابقه</string>
+    <string name="write_message">اكتب رسالتك</string>
+
+
+    <string name="should_Login">يجب تسجيل الدخول أولا </string>
+
+
+</resources>
