@@ -54,6 +54,10 @@
         <action
             android:id="@+id/action_from_DepartmentsFragment_to_ChattingFragment"
             app:destination="@id/ChattingFragment" />
+
+        <action
+            android:id="@+id/action_from_DepartmentsFragment_to_CartFragment"
+            app:destination="@id/CartFragment" />
     </fragment>
 
     <fragment
@@ -66,6 +70,10 @@
         <action
             android:id="@+id/action_from_StoresFragment_to_ProductsFragment"
             app:destination="@id/ProductsFragment" />
+
+        <action
+            android:id="@+id/action_from_StoresFragmentnt_to_ChattingFragment"
+            app:destination="@id/ChattingFragment" />
     </fragment>
 
     <fragment
@@ -140,5 +148,12 @@
         android:name="com.gift.app.ui.chat.ChatFragment"
         android:label="chat_fragment"
         tools:layout="@layout/chat_fragment" />
+
+
+    <fragment
+        android:id="@+id/CartFragment"
+        android:name="com.gift.app.ui.cart.CartFragment"
+        android:label="cart_fragment"
+        tools:layout="@layout/cart_fragment" />
 
 </navigation>

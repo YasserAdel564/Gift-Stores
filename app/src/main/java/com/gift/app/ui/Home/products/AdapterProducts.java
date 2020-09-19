@@ -82,6 +82,20 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
                     productCallback.ProductClicked(list.get(getAdapterPosition()));
                 }
             });
+
+            binding.addCartImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    productCallback.addCartClicked(list.get(getAdapterPosition()));
+                }
+            });
+
+            binding.removeCartImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    productCallback.removeCartClicked(list.get(getAdapterPosition()));
+                }
+            });
         }
 
 
@@ -89,5 +103,8 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
 
     public interface ProductCallback {
         void ProductClicked(Product model);
+        void addCartClicked(Product model);
+        void removeCartClicked(Product model);
+
     }
 }

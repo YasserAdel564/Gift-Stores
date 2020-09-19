@@ -192,12 +192,24 @@ public class DepartmentsFragment extends Fragment implements
                     Extensions.Success(binding.drawerLayout, requireActivity().getString(R.string.should_Login));
             }
         });
+        binding.cartImgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (App.getPreferencesHelper().getIsLogin())
+                    goToCart();
+                else
+                    Extensions.Success(binding.drawerLayout, requireActivity().getString(R.string.should_Login));
+            }
+        });
     }
-
+    private void goToCart() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_from_DepartmentsFragment_to_CartFragment);
+    }
     private void goToChat() {
         NavHostFragment.findNavController(this).navigate(R.id.action_from_DepartmentsFragment_to_ChattingFragment);
-
     }
+
+
 
 
     private void initDrawer() {

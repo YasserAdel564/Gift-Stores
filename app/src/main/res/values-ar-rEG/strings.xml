@@ -70,8 +70,13 @@
     <string name="chat_empty">لا توجد رسائل سابقه</string>
     <string name="write_message">اكتب رسالتك</string>
 
+    <string name="empty_cart">لا توجد منتجات في سله مشترياتك </string>
 
     <string name="should_Login">يجب تسجيل الدخول أولا </string>
+    <string name="cart">سله المشتريات</string>
+    <string name="confirm_order">تأكيد</string>
 
-
+    <string name="delivery_price">سعر التوصيل</string>
+    <string name="order_price">سعر الطلب</string>
+    <string name="total_price">السعر الكلي</string>
 </resources>

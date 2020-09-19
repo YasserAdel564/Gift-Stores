@@ -2,9 +2,12 @@ package com.gift.app.data.storages.remote;
 
 import com.gift.app.data.models.AddFavouriteResponse;
 import com.gift.app.data.models.AuthResponse;
+import com.gift.app.data.models.CartResponse;
 import com.gift.app.data.models.ChatResponse;
 import com.gift.app.data.models.DepartmentsResponse;
 import com.gift.app.data.models.FavStoresResponse;
+import com.gift.app.data.models.OrderResponse;
+import com.gift.app.data.models.PostCartResponse;
 import com.gift.app.data.models.PostChatResponse;
 import com.gift.app.data.models.ProductsResponse;
 import com.gift.app.data.models.StoresResponse;
@@ -37,7 +40,9 @@ public interface RetrofitServices {
     @GET(ApiUrls.GetDepartments)
     Observable<DepartmentsResponse> getDepartments(
             @Query("uid") String uid,
-            @Query("firebasetoken") String firebasetoken
+            @Query("firebasetoken") String firebasetoken,
+            @Query("mobile") String mobile
+
     );
 
     @GET(ApiUrls.GetStores)
@@ -74,4 +79,35 @@ public interface RetrofitServices {
             @Part("message") RequestBody message,
             @Part("photo") MultipartBody.Part photo
     );
+
+
+    @GET(ApiUrls.GetCard)
+    Observable<CartResponse> getCart(@Query("mobile") String mobile);
+
+    @Multipart
+    @POST(ApiUrls.PostDeleteCard)
+    Observable<PostCartResponse> postDelCart(
+            @Part("product_id") RequestBody mobile,
+            @Part("mobile") RequestBody message
+    );
+
+
+    @Multipart
+    @POST(ApiUrls.PostAddCard)
+    Observable<PostCartResponse> postAddCart(
+            @Part("mobile") RequestBody mobile,
+            @Part("delivery_price") RequestBody delivery_price,
+            @Part("product_id") RequestBody product_id,
+            @Part("product_count") RequestBody product_count,
+            @Part("store_id") RequestBody store_id,
+            @Part("department_id") RequestBody department_id,
+            @Part("address") RequestBody address
+    );
+
+    @Multipart
+    @POST(ApiUrls.ConfirmOrder)
+    Observable<OrderResponse> postConfirmOrder(@Part("mobile") RequestBody mobile);
+
+
+
 }

@@ -49,8 +49,8 @@ public class ChatFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         binding.sendMessagesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validation())
-                    sendMessage();
+//                if (validation())
+//                    sendMessage();
             }
         });
 

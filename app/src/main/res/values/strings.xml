@@ -56,6 +56,7 @@
     <string name="empty_departments">No Departments Available</string>
     <string name="empty_products">No Products Available</string>
     <string name="empty_fav">No Favourites Available</string>
+    <string name="empty_cart">No Products Available in Cart</string>
 
     <string name="privacy_text">This application is not responsible for any wrong use by users and it does not ask users for any financial compensation for registration, it is a completely free application and is not responsible for any accounts or financial transfers made using the name of the application</string>
 
@@ -76,6 +77,12 @@
     <string name="write_message">Write Message</string>
 
     <string name="should_Login">You Should Login </string>
+    <string name="cart">Cart</string>
+    <string name="confirm_order">Confirm</string>
+
+    <string name="delivery_price">Delivery Price</string>
+    <string name="order_price">Order Price</string>
+    <string name="total_price">Total Price</string>
 
 
 </resources>

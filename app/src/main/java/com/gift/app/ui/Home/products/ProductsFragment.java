@@ -54,6 +54,8 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
 
         setUiState();
+        onCartActionResponse();
+
     }
 
     private void setUiState() {
@@ -88,6 +90,33 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
 
+    private void onCartActionResponse() {
+        mViewModel.liveStateCart.observe(getViewLifecycleOwner(), state -> {
+            if (state.onLoading) {
+                binding.loading.setVisibility(View.VISIBLE);
+            }
+            if (state.onSuccess) {
+                binding.loading.setVisibility(View.GONE);
+                if (!mViewModel.response.getMsg().isEmpty())
+                    Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
+                mViewModel.response.setMsg("");
+
+            }
+            if (state.onError) {
+                binding.loading.setVisibility(View.GONE);
+                Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
+            }
+            if (state.onNoConnection) {
+                binding.loading.setVisibility(View.GONE);
+                Extensions.noInternetSnakeBar(binding.productRoot);
+
+            }
+
+        });
+    }
+
+
+
     @Override
     public void onRefresh() {
         mViewModel.getProducts();
@@ -98,5 +127,17 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void ProductClicked(Product model) {
 
+    }
+
+    @Override
+    public void addCartClicked(Product model) {
+        mViewModel.productId = model.getId().toString();
+        mViewModel.addCart();
+    }
+
+    @Override
+    public void removeCartClicked(Product model) {
+        mViewModel.productId = model.getId().toString();
+        mViewModel.delCart();
     }
 }

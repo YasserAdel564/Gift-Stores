@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gift.app.App;
 import com.gift.app.R;
 import com.gift.app.data.models.Department;
 import com.gift.app.data.models.Store;
@@ -73,7 +74,24 @@ public class StoresFragment extends Fragment implements AdapterStores.StoreCallb
         clickListeners();
         onFavResponse();
         dataBinding();
+
+        binding.chatImgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (App.getPreferencesHelper().getIsLogin())
+                    goToChat();
+                else
+                    Extensions.Success(binding.storesRoot, requireActivity().getString(R.string.should_Login));
+            }
+        });
+
     }
+
+
+    private void goToChat() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_from_StoresFragmentnt_to_ChattingFragment);
+    }
+
 
     private void dataBinding() {
         binding.storeSwipe.setOnRefreshListener(this);

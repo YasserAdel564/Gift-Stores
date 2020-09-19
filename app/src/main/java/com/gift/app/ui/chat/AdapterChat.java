@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -68,17 +69,20 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
                 .placeholder(R.drawable.app_logo)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
-        holder.messageText.setText(list.get(position).getMessage());
-        holder.messageDate.setText(list.get(position).getDate());
-        if (!list.get(position).getPhoto().isEmpty() && list.get(position).getPhoto() != null)
+
+
+        if (list.get(position).getMessage() != null) {
+            holder.messageText.setText(list.get(position).getMessage());
+            holder.messageDate.setText(list.get(position).getDate());
+        } else
+            holder.textLayout.setVisibility(View.GONE);
+
+        if (list.get(position).getPhoto() != null)
             Glide.with(mContext).load(list.get(position).getPhoto())
                     .apply(options)
                     .into(holder.messageImage);
-        if (list.get(position).getPhoto().equals("https://giftstores.online/"))
+        else
             holder.imageCard.setVisibility(View.GONE);
-
-//        else
-//            holder.messageImage.setVisibility(View.GONE);
 
 
     }
@@ -94,6 +98,8 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
         private ImageView messageImage;
         private TextView messageText;
         private TextView messageDate;
+        private ConstraintLayout textLayout;
+
 
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,7 +107,7 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
             messageImage = itemView.findViewById(R.id.imageMessage);
             messageText = itemView.findViewById(R.id.message);
             messageDate = itemView.findViewById(R.id.messageDate);
-
+            textLayout = itemView.findViewById(R.id.textLayout);
 
         }
 

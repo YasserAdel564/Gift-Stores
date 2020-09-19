@@ -35,6 +35,7 @@ public class DepartmentsViewModel extends ViewModel {
 
     private String uid = App.getPreferencesHelper().getUid();
     private String firebasetoken = App.getPreferencesHelper().getFirebaseToken();
+    private String mobile = App.getPreferencesHelper().getUserMobile();
 
 
 
@@ -45,7 +46,7 @@ public class DepartmentsViewModel extends ViewModel {
             state.onNoConnection = true;
             liveState.postValue(state);
         } else {
-            Observable<DepartmentsResponse> observable = RetrofitBuilder.getRetrofit().getDepartments(uid,firebasetoken)
+            Observable<DepartmentsResponse> observable = RetrofitBuilder.getRetrofit().getDepartments(uid,firebasetoken,mobile)
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
 
             Observer<DepartmentsResponse> observer = new Observer<DepartmentsResponse>() {

@@ -17,6 +17,13 @@ public class ApiUrls {
     final static String AddFavourite = "api/add_fav_stores";
     final static String DelFavourite = "api/delete_fav_stores";
     final static String GetChat = "api/view_chat";
-    final static String PostChat = "api/view_chat";
+    final static String PostChat = "api/chat";
+    final static String GetCard = "api/cart";
+    final static String PostAddCard = "api/add_cart";
+    final static String PostDeleteCard = "api/delete_cart";
+    final static String ConfirmOrder = "api/add_order";
+
+
+
 
 }
