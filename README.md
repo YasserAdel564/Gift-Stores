@@ -3,8 +3,8 @@
  Gift Stores is App For Request Orders From Stores and Know the Prices of the Products with Different Departments 
 
 # Features
- #Java
- -Navigation Component
+ # Java
+ # Navigation Component
  -ViewBinding
  -MVVM
  -RxJava2
