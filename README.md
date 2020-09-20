@@ -18,5 +18,6 @@
  * Apply DI
 
 ## License
-* This project is licensed under the MIT License - see the LICENSE file for details
+* This project is licensed under the MIT License - see the [License](https://github.com/YasserAdel564/Gift-Stores/blob/master/License)
+ file for details
 
