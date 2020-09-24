@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "30.0.1"
 
     defaultConfig {
         applicationId "com.gift.app"
@@ -15,17 +15,35 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        release {
+            storeFile file("/home/rootx/Desktop/Projects/Gift-Stores/gift.jks")
+            storePassword "gift12345"
+            keyAlias "gift"
+            keyPassword "gift12345"
+        }
+    }
+
     buildTypes {
         debug {
+            initWith debug
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            shrinkResources true
+            minifyEnabled true
             debuggable false
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                outputFileName = "Gift-${variant.buildType.name}-v${variant.versionCode}.apk"
+            }
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -35,14 +53,7 @@ android {
         enabled = true
     }
 
-    signingConfigs {
-        release {
-            storeFile file("gift.jks")
-            storePassword "gift12345"
-            keyAlias "gift"
-            keyPassword "gift12345"
-        }
-    }
+
 }
 
 dependencies {
