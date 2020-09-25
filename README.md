@@ -9,7 +9,6 @@
 - [x] MVVM
 - [x] RxJava2
 - [x] Retrofit2
-- [x] Retrofit2
 - [x] Proguard Rules
 
  
