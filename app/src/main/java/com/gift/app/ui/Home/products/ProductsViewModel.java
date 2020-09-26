@@ -42,7 +42,7 @@ public class ProductsViewModel extends ViewModel {
             state.onNoConnection = true;
             liveState.postValue(state);
         } else {
-            Observable<ProductsResponse> observable = RetrofitBuilder.getRetrofit().getProducts(64)
+            Observable<ProductsResponse> observable = RetrofitBuilder.getRetrofit().getProducts(storeId)
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
 
             Observer<ProductsResponse> observer = new Observer<ProductsResponse>() {
@@ -95,7 +95,6 @@ public class ProductsViewModel extends ViewModel {
     public String delivery_price = "10";
     public String product_count = "1";
     public String address = "45st";
-    public String store_id = "64";
     public String department_id = "37";
 
 
@@ -168,7 +167,7 @@ public class ProductsViewModel extends ViewModel {
                     RequestBody.create(MediaType.parse("text/plain"), delivery_price),
                     RequestBody.create(MediaType.parse("text/plain"), productId),
                     RequestBody.create(MediaType.parse("text/plain"), product_count),
-                    RequestBody.create(MediaType.parse("text/plain"), store_id),
+                    RequestBody.create(MediaType.parse("text/plain"), String.valueOf(storeId)),
                     RequestBody.create(MediaType.parse("text/plain"), department_id),
                     RequestBody.create(MediaType.parse("text/plain"), address)
             )

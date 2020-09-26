@@ -53,7 +53,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.drawable.laptop)
+                .placeholder(R.drawable.app_logo)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
         Glide.with(mContext).load(list.get(position).getPhoto())

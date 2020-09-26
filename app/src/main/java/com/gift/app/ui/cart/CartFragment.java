@@ -103,8 +103,6 @@ public class CartFragment extends Fragment implements AdapterCart.CartCallback, 
     }
 
     private void onSuccess() {
-        binding.deliveryPriceTv.setText(mViewModel.response.getDelivery_price());
-        binding.orderPriceTv.setText(mViewModel.response.getTotal_price());
         binding.totalPriceTv.setText(mViewModel.response.getAll());
         binding.confirmTv.setVisibility(View.VISIBLE);
         binding.orderPriceLayout.setVisibility(View.VISIBLE);

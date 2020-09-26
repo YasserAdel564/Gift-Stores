@@ -1,6 +1,8 @@
 package com.gift.app.ui.Home.products;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -16,8 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gift.app.R;
+import com.gift.app.data.models.Department;
 import com.gift.app.data.models.Product;
+import com.gift.app.data.models.Store;
 import com.gift.app.databinding.ProductsFragmentBinding;
+import com.gift.app.ui.Home.SharedViewModel;
 import com.gift.app.ui.Home.stores.AdapterStores;
 import com.gift.app.utils.Extensions;
 
@@ -25,6 +30,8 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
         , AdapterProducts.ProductCallback {
 
     private ProductsViewModel mViewModel;
+    private SharedViewModel mSharedViewModel;
+
     private ProductsFragmentBinding binding;
 
     private AdapterProducts adapter;
@@ -42,7 +49,16 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(ProductsViewModel.class);
-        mViewModel.getProducts();
+        mSharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        mSharedViewModel.selectedStore.observe(getViewLifecycleOwner(), new Observer<Store>() {
+            @Override
+            public void onChanged(Store store) {
+                mViewModel.storeId = store.getId();
+//                mViewModel.department_id = store.();
+                mViewModel.getProducts();
+            }
+        });
 
         binding.productSwipe.setOnRefreshListener(this);
 

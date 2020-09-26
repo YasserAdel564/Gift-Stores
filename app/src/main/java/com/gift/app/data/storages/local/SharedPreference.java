@@ -14,6 +14,7 @@ public class SharedPreference {
     private static final String PREF_KEY_SHOW_INTRO = "intro";
     private static final String PREF_KEY_USER_NAME = "name";
     private static final String PREF_KEY_LOGIN = "isLogin";
+    private static final String PREF_OUT_OF_SERVICES = "outServices";
 
 
     public SharedPreference(Context context) {
@@ -78,7 +79,13 @@ public class SharedPreference {
         return mSharedPreferences.getString(PREF_KEY_Mobile, "");
     }
 
+    public void setInServices(Boolean inServices) {
+        mSharedPreferences.edit().putBoolean(PREF_OUT_OF_SERVICES, inServices).apply();
+    }
 
+    public Boolean getInServices() {
+        return mSharedPreferences.getBoolean(PREF_OUT_OF_SERVICES, true);
+    }
 
 
 }
