@@ -80,6 +80,21 @@
                 android:textColorHint="@color/normalGray"
                 android:textSize="14sp" />
 
+            <EditText
+                android:id="@+id/userAddressEt"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_background"
+                android:gravity="center|center_vertical"
+                android:hint="@string/user_address"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@color/colorTextDark"
+                android:textColorHint="@color/normalGray"
+                android:textSize="14sp" />
+
 
             <LinearLayout
                 android:id="@+id/phoneLayout"

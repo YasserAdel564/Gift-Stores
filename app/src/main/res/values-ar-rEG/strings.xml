@@ -12,6 +12,8 @@
     <string name="confirm">تأكيد</string>
     <string name="login">تسجيل دخول</string>
     <string name="register">انشاء حساب</string>
+    <string name="user_address">عنوان المستخدم</string>
+    <string name="address_empty">عنوان المستخدم فارغ</string>
 
     <string name="user_name">اسم المستخدم</string>
     <string name="user_phone">رقم الموبايل</string>

@@ -13,6 +13,7 @@ public class SharedPreference {
     private static final String PREF_KEY_Language = "language";
     private static final String PREF_KEY_SHOW_INTRO = "intro";
     private static final String PREF_KEY_USER_NAME = "name";
+    private static final String PREF_KEY_USER_Address = "address";
     private static final String PREF_KEY_LOGIN = "isLogin";
     private static final String PREF_OUT_OF_SERVICES = "outServices";
 
@@ -60,6 +61,13 @@ public class SharedPreference {
 
     public String getUserName() {
         return mSharedPreferences.getString(PREF_KEY_USER_NAME, null);
+    }
+    public void setUserAddress(String address) {
+        mSharedPreferences.edit().putString(PREF_KEY_USER_Address, address).apply();
+    }
+
+    public String getUserAddress() {
+        return mSharedPreferences.getString(PREF_KEY_USER_Address, "");
     }
 
     public void setIsLogin(Boolean showIntro) {

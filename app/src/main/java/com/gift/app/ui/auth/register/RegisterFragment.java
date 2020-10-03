@@ -1,6 +1,7 @@
 package com.gift.app.ui.auth.register;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -81,51 +82,62 @@ public class RegisterFragment extends Fragment {
             binding.UsrePhoneEt.setError(requireActivity().getString(R.string.phone_empty));
             return false;
         }
+        if (binding.userAddressEt.getText().toString().trim().isEmpty()) {
+            binding.userAddressEt.setError(requireActivity().getString(R.string.address_empty));
+            return false;
+        }
         if (binding.userNameEt.getText().toString().trim().isEmpty()) {
             binding.userNameEt.setError(requireActivity().getString(R.string.name_empty));
             return false;
-        }else if (binding.UsrePhoneEt.getText().toString().trim().length() != 11) {
+        } else if (binding.UsrePhoneEt.getText().toString().trim().length() != 11) {
             binding.UsrePhoneEt.setError(requireActivity().getString(R.string.phone_short_length));
             return false;
         } else {
             mViewModel.name = binding.userNameEt.getText().toString();
             mViewModel.mobile = binding.UsrePhoneEt.getText().toString();
+            App.getPreferencesHelper().setUserAddress(binding.userAddressEt.getText().toString().trim());
             return true;
         }
+
+
     }
 
 
     private void onRegisterResponse() {
-        mViewModel.liveState.observe(getViewLifecycleOwner(), state -> {
-            if (state.onLoading) {
-                binding.loading.setVisibility(View.VISIBLE);
-            }
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                if (!mViewModel.response.getMsg().isEmpty())
-                    Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
-                goToActivation();
-                App.getPreferencesHelper().setUserMobile(mViewModel.response.getData().getMobile());
-                App.getPreferencesHelper().setUserName(mViewModel.response.getData().getName());
+        mViewModel.liveState.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        break;
 
-            }
-            if (state.onEmpty) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        if (!mViewModel.response.getMsg().isEmpty())
+                            Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
+                        goToActivation();
+                        App.getPreferencesHelper().setUserMobile(mViewModel.response.getData().getMobile());
+                        App.getPreferencesHelper().setUserName(mViewModel.response.getData().getName());
+                        break;
 
-            }
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
-            }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.registerRoot);
+                    case "onEmpty":
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
+                        break;
 
-            }
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.registerRoot);
+                        break;
 
+                    default:
+
+                }
+            }
         });
+
+
     }
-
-
 }

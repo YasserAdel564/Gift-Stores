@@ -96,7 +96,6 @@ public interface RetrofitServices {
     @POST(ApiUrls.PostAddCard)
     Observable<PostCartResponse> postAddCart(
             @Part("mobile") RequestBody mobile,
-            @Part("delivery_price") RequestBody delivery_price,
             @Part("product_id") RequestBody product_id,
             @Part("product_count") RequestBody product_count,
             @Part("store_id") RequestBody store_id,

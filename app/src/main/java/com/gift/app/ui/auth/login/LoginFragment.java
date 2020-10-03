@@ -1,6 +1,7 @@
 package com.gift.app.ui.auth.login;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -94,43 +95,47 @@ public class LoginFragment extends Fragment {
     }
 
     private void onLoginResponse() {
-        mViewModel.liveState.observe(getViewLifecycleOwner(), state -> {
 
+        mViewModel.liveState.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        break;
 
-            if (state.onLoading) {
-                binding.loading.setVisibility(View.VISIBLE);
-                Log.e("cccccccccccccc", String.valueOf(mViewModel.liveState.getValue()));
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        if (!mViewModel.response.getMsg().isEmpty())
+                            Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
+                        Navigation.findNavController(requireActivity(), R.id.host_fragment)
+                                .navigate(R.id.action_from_loginFragment_to_otpFragment);
+                        App.getPreferencesHelper().setUserMobile(mViewModel.response.getData().getMobile());
+                        App.getPreferencesHelper().setUserName(mViewModel.response.getData().getName());
+                        break;
+
+                    case "onEmpty":
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
+                        break;
+
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.loginRoot);
+                        break;
+
+                    default:
+                }
             }
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                if (!mViewModel.response.getMsg().isEmpty())
-                    Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
-                Navigation.findNavController(requireActivity(), R.id.host_fragment)
-                        .navigate(R.id.action_from_loginFragment_to_otpFragment);
-                App.getPreferencesHelper().setUserMobile(mViewModel.response.getData().getMobile());
-                App.getPreferencesHelper().setUserName(mViewModel.response.getData().getName());
-
-
-            }
-            if (state.onEmpty) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
-
-            }
-
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
-
-            }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.loginRoot);
-
-            }
-
         });
+
+
     }
 
-
+    @Override
+    public void onStop() {
+        mViewModel.liveState.postValue("");
+        super.onStop();
+    }
 }

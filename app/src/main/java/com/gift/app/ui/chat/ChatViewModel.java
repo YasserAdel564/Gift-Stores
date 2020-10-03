@@ -10,9 +10,7 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.gift.app.App;
 import com.gift.app.data.models.ChatModel;
 import com.gift.app.data.models.ChatResponse;
-import com.gift.app.data.models.FavStoresResponse;
 import com.gift.app.data.models.PostChatResponse;
-import com.gift.app.data.models.Store;
 import com.gift.app.data.storages.remote.RetrofitBuilder;
 import com.gift.app.utils.UiStates;
 
@@ -29,8 +27,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class ChatViewModel extends ViewModel {
-    UiStates state = new UiStates();
-    public MutableLiveData<UiStates> liveState = new MutableLiveData<>();
+    public MutableLiveData<String> liveState = new MutableLiveData<>();
     public List<ChatModel> List;
     private String phoneNumber = App.getPreferencesHelper().getUserMobile();
 
@@ -39,8 +36,7 @@ public class ChatViewModel extends ViewModel {
     public void getChat() {
 
         if (!NetworkUtils.isConnected()) {
-            state.onNoConnection = true;
-            liveState.postValue(state);
+            liveState.postValue(UiStates.onNoConnection);
         } else {
             Observable<ChatResponse> observable = RetrofitBuilder.getRetrofit().getChat("45944",
                     phoneNumber
@@ -50,29 +46,24 @@ public class ChatViewModel extends ViewModel {
             Observer<ChatResponse> observer = new Observer<ChatResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    state.onLoading = true;
-                    liveState.postValue(state);
+                    liveState.postValue(UiStates.onLoading);
                 }
 
                 @Override
                 public void onNext(ChatResponse value) {
 
                     if (value.getData().size() > 0) {
-                        state.onSuccess = true;
                         List = value.getData();
+                        liveState.postValue(UiStates.onSuccess);
                     } else
-                        state.onEmpty = true;
+                        liveState.postValue(UiStates.onEmpty);
 
-                    liveState.postValue(state);
-
-                    Log.e("addFavourites", value.getMsg());
 
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    state.onError = true;
-                    liveState.postValue(state);
+                    liveState.postValue(UiStates.onError);
 
                 }
 
@@ -89,8 +80,7 @@ public class ChatViewModel extends ViewModel {
     }
 
 
-    UiStates statePost = new UiStates();
-    public MutableLiveData<UiStates> liveStatePost = new MutableLiveData<>();
+    public MutableLiveData<String> liveStatePost = new MutableLiveData<>();
     public String chatMessage;
     public String chatPhoto;
     MultipartBody.Part body;
@@ -105,8 +95,7 @@ public class ChatViewModel extends ViewModel {
         }
 
         if (!NetworkUtils.isConnected()) {
-            statePost.onNoConnection = true;
-            liveStatePost.postValue(statePost);
+            liveStatePost.postValue(UiStates.onNoConnection);
         } else {
             Observable<PostChatResponse> observable = RetrofitBuilder.getRetrofit().postChat(
                     RequestBody.create(MediaType.parse("text/plain"), phoneNumber),
@@ -117,28 +106,22 @@ public class ChatViewModel extends ViewModel {
             Observer<PostChatResponse> observer = new Observer<PostChatResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    statePost.onLoading = true;
-                    liveStatePost.postValue(statePost);
+                    liveStatePost.postValue(UiStates.onLoading);
                 }
 
                 @Override
                 public void onNext(PostChatResponse value) {
 
-                    if (value.getStatus()) {
-                        statePost.onSuccess = true;
-                    } else
-                        statePost.onEmpty = true;
-
-                    liveStatePost.postValue(state);
-
-                    Log.e("addFavourites", value.getMsg());
+                    if (value.getStatus())
+                        liveStatePost.postValue(UiStates.onSuccess);
+                    else
+                        liveStatePost.postValue(UiStates.onEmpty);
 
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    statePost.onError = true;
-                    liveStatePost.postValue(state);
+                    liveStatePost.postValue(UiStates.onError);
 
                 }
 
@@ -152,5 +135,10 @@ public class ChatViewModel extends ViewModel {
 
         }
 
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }

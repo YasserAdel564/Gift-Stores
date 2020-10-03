@@ -1,6 +1,7 @@
 package com.gift.app.ui.favourites;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -67,60 +68,78 @@ public class FavouritesFragment extends Fragment implements AdapterStores.StoreC
 
 
     private void setUiState() {
-        mViewModel.liveStateFav.observe(getViewLifecycleOwner(), state -> {
 
-            if (state.onLoading) {
-                binding.loading.setVisibility(View.VISIBLE);
-                binding.favRv.setVisibility(View.GONE);
-            }
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                binding.favRv.setVisibility(View.VISIBLE);
-                onSuccess();
-            }
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                binding.favRv.setVisibility(View.GONE);
-                Extensions.generalErrorSnakeBar(binding.storesRoot);
-            }
-            if (state.onEmpty) {
-                binding.favRv.setVisibility(View.GONE);
-                binding.loading.setVisibility(View.GONE);
-                binding.emptyViewLayout.setVisibility(View.VISIBLE);
-            }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                binding.favRv.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.storesRoot);
+        mViewModel.liveStateFav.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        binding.favRv.setVisibility(View.GONE);
+                        binding.emptyViewLayout.setVisibility(View.GONE);
+                        break;
 
-            }
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        binding.favRv.setVisibility(View.VISIBLE);
+                        binding.emptyViewLayout.setVisibility(View.GONE);
+                        onSuccess();
+                        break;
 
+                    case "onEmpty":
+                        binding.favRv.setVisibility(View.GONE);
+                        binding.loading.setVisibility(View.GONE);
+                        binding.emptyViewLayout.setVisibility(View.VISIBLE);
+                        break;
+
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        binding.favRv.setVisibility(View.GONE);
+                        Extensions.generalErrorSnakeBar(binding.storesRoot);
+                        break;
+
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        binding.favRv.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.storesRoot);
+                        break;
+
+                    default:
+                }
+            }
         });
+
     }
 
     private void onFavResponse() {
-        mFavViewModel.liveState.observe(getViewLifecycleOwner(), state -> {
-            if (state.onLoading) {
-                binding.loading.setVisibility(View.VISIBLE);
-            }
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                if (!mFavViewModel.response.getMsg().isEmpty())
-                    Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
-                mViewModel.getFavourites();
-                mFavViewModel.response.setMsg("");
+        mViewModel.liveState.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        break;
 
-            }
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
-            }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.storesRoot);
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        if (!mFavViewModel.response.getMsg().isEmpty())
+                            Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
+                        mViewModel.getFavourites();
+                        mFavViewModel.response.setMsg("");
+                        break;
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
+                        break;
 
-            }
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.storesRoot);
+                        break;
 
+                    default:
+                }
+            }
         });
     }
 

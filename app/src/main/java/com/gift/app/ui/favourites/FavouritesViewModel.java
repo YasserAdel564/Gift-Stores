@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModel;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.gift.app.App;
 import com.gift.app.data.models.AddFavouriteResponse;
-import com.gift.app.data.models.Department;
-import com.gift.app.data.models.DepartmentsResponse;
 import com.gift.app.data.models.FavStoresResponse;
 import com.gift.app.data.models.Store;
 import com.gift.app.data.storages.remote.RetrofitBuilder;
@@ -29,8 +27,7 @@ import okhttp3.RequestBody;
 public class FavouritesViewModel extends ViewModel {
 
     Boolean isOpen = false;
-    UiStates state = new UiStates();
-    public MutableLiveData<UiStates> liveState = new MutableLiveData<>();
+    public MutableLiveData<String> liveState = new MutableLiveData<>();
     public AddFavouriteResponse response;
     private String uid = App.getPreferencesHelper().getUid();
     public Integer storeId = null;
@@ -40,8 +37,7 @@ public class FavouritesViewModel extends ViewModel {
     public void addFavourites() {
 
         if (!NetworkUtils.isConnected()) {
-            state.onNoConnection = true;
-            liveState.postValue(state);
+            liveState.postValue(UiStates.onNoConnection);
         } else {
             Observable<AddFavouriteResponse> observable = RetrofitBuilder.getRetrofit().postAddFav(
                     storeId
@@ -51,29 +47,24 @@ public class FavouritesViewModel extends ViewModel {
             Observer<AddFavouriteResponse> observer = new Observer<AddFavouriteResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    state.onLoading = true;
-                    liveState.postValue(state);
+                    liveState.postValue(UiStates.onLoading);
                 }
 
                 @Override
                 public void onNext(AddFavouriteResponse value) {
 
                     if (value.getStatus()) {
-                        state.onSuccess = true;
                         response = value;
+                        liveState.postValue(UiStates.onSuccess);
                     } else
-                        state.onEmpty = true;
+                        liveState.postValue(UiStates.onEmpty);
 
-                    liveState.postValue(state);
-
-                    Log.e("addFavourites", value.getMsg());
 
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    state.onError = true;
-                    liveState.postValue(state);
+                    liveState.postValue(UiStates.onError);
 
                 }
 
@@ -93,8 +84,7 @@ public class FavouritesViewModel extends ViewModel {
     public void delFavourites() {
 
         if (!NetworkUtils.isConnected()) {
-            state.onNoConnection = true;
-            liveState.postValue(state);
+            liveState.postValue(UiStates.onSuccess);
         } else {
             Observable<AddFavouriteResponse> observable = RetrofitBuilder.getRetrofit().
                     postDeleteFav(storeId, RequestBody.create(MediaType.parse("text/plain"), uid))
@@ -103,29 +93,24 @@ public class FavouritesViewModel extends ViewModel {
             Observer<AddFavouriteResponse> observer = new Observer<AddFavouriteResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    state.onLoading = true;
-                    liveState.postValue(state);
+                    liveState.postValue(UiStates.onLoading);
                 }
 
                 @Override
                 public void onNext(AddFavouriteResponse value) {
 
                     if (value.getStatus()) {
-                        state.onSuccess = true;
                         response = value;
+                        liveState.postValue(UiStates.onSuccess);
                     } else
-                        state.onEmpty = true;
+                        liveState.postValue(UiStates.onEmpty);
 
-                    liveState.postValue(state);
-                    Log.e("delFavourites", value.getMsg());
 
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    state.onError = true;
-                    liveState.postValue(state);
-
+                    liveState.postValue(UiStates.onError);
                 }
 
                 @Override
@@ -144,8 +129,7 @@ public class FavouritesViewModel extends ViewModel {
     //===============Get Favourites
 
 
-    UiStates stateFav = new UiStates();
-    public MutableLiveData<UiStates> liveStateFav = new MutableLiveData<>();
+    public MutableLiveData<String> liveStateFav = new MutableLiveData<>();
     public List<Store> favList;
 
 
@@ -153,8 +137,7 @@ public class FavouritesViewModel extends ViewModel {
     public void getFavourites() {
 
         if (!NetworkUtils.isConnected()) {
-            stateFav.onNoConnection = true;
-            liveStateFav.postValue(stateFav);
+            liveStateFav.postValue(UiStates.onNoConnection);
         } else {
             Observable<FavStoresResponse> observable = RetrofitBuilder.getRetrofit().getFavStores(
                     uid)
@@ -163,29 +146,24 @@ public class FavouritesViewModel extends ViewModel {
             Observer<FavStoresResponse> observer = new Observer<FavStoresResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    stateFav.onLoading = true;
-                    liveStateFav.postValue(stateFav);
+                    liveStateFav.postValue(UiStates.onLoading);
                 }
 
                 @Override
                 public void onNext(FavStoresResponse value) {
 
                     if (value.getData().size() > 0) {
-                        stateFav.onSuccess = true;
                         favList = value.getData();
+                        liveStateFav.postValue(UiStates.onSuccess);
                     } else
-                        stateFav.onEmpty = true;
+                        liveStateFav.postValue(UiStates.onEmpty);
 
-                    liveStateFav.postValue(stateFav);
-
-                    Log.e("addFavourites", value.getMsg());
 
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    stateFav.onError = true;
-                    liveStateFav.postValue(stateFav);
+                    liveStateFav.postValue(UiStates.onError);
 
                 }
 
@@ -199,5 +177,10 @@ public class FavouritesViewModel extends ViewModel {
 
         }
 
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
     }
 }

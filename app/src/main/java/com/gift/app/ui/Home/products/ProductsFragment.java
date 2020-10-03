@@ -1,33 +1,37 @@
 package com.gift.app.ui.Home.products;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gift.app.App;
 import com.gift.app.R;
-import com.gift.app.data.models.Department;
 import com.gift.app.data.models.Product;
 import com.gift.app.data.models.Store;
 import com.gift.app.databinding.ProductsFragmentBinding;
 import com.gift.app.ui.Home.SharedViewModel;
-import com.gift.app.ui.Home.stores.AdapterStores;
 import com.gift.app.utils.Extensions;
 
 public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
-        , AdapterProducts.ProductCallback {
+        , AdapterProducts.ProductCallback, View.OnClickListener {
 
     private ProductsViewModel mViewModel;
     private SharedViewModel mSharedViewModel;
@@ -35,6 +39,7 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
     private ProductsFragmentBinding binding;
 
     private AdapterProducts adapter;
+    private Integer REQUEST_PHONE_CALL = 1;
 
 
     @Override
@@ -51,86 +56,141 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
         mViewModel = ViewModelProviders.of(this).get(ProductsViewModel.class);
         mSharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
-        mSharedViewModel.selectedStore.observe(getViewLifecycleOwner(), new Observer<Store>() {
-            @Override
-            public void onChanged(Store store) {
-                mViewModel.storeId = store.getId();
-//                mViewModel.department_id = store.();
-                mViewModel.getProducts();
-            }
-        });
-
         binding.productSwipe.setOnRefreshListener(this);
-
         binding.backImgV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigateUp();
             }
         });
-
+        getProducts();
         setUiState();
         onCartActionResponse();
+        clicksListeners();
 
     }
 
-    private void setUiState() {
-        mViewModel.liveState.observe(getViewLifecycleOwner(), state -> {
-
-            if (state.onLoading)
-                binding.loading.setVisibility(View.VISIBLE);
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                onSuccess();
+    private void getProducts() {
+        mSharedViewModel.selectedStore.observe(getViewLifecycleOwner(), new Observer<Store>() {
+            @Override
+            public void onChanged(Store store) {
+                mViewModel.storeId = store.getId();
+                mViewModel.getProducts();
             }
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.generalErrorSnakeBar(binding.productRoot);
+        });
 
+    }
+
+    private void clicksListeners() {
+        binding.phoneImgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                } else {
+                    Extensions.makeCall(requireActivity(), "+201152444842");
+
+                }
             }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.productRoot);
-
+        });
+        binding.chatImgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (App.getPreferencesHelper().getIsLogin())
+                    goToChat();
+                else
+                    Extensions.Success(binding.productRoot, requireActivity().getString(R.string.should_Login));
             }
-
+        });
+        binding.cartImgV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (App.getPreferencesHelper().getIsLogin())
+                    goToCart();
+                else
+                    Extensions.Success(binding.productRoot, requireActivity().getString(R.string.should_Login));
+            }
         });
     }
 
-    private void onSuccess() {
+    private void goToCart() {
+        NavHostFragment.findNavController(this).navigate(R.id.CartFragment);
+    }
 
+    private void goToChat() {
+        NavHostFragment.findNavController(this).navigate(R.id.ChattingFragment);
+    }
+
+
+    private void setUiState() {
+        mViewModel.liveState.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        break;
+
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        onSuccess();
+                        break;
+
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.generalErrorSnakeBar(binding.productRoot);
+                        break;
+
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.productRoot);
+                        break;
+                    default:
+                }
+            }
+        });
+
+    }
+
+    private void onSuccess() {
         adapter = new AdapterProducts(mViewModel.listStores, requireActivity(), this);
         binding.productRv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
 
 
     private void onCartActionResponse() {
-        mViewModel.liveStateCart.observe(getViewLifecycleOwner(), state -> {
-            if (state.onLoading) {
-                binding.loading.setVisibility(View.VISIBLE);
-            }
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                if (!mViewModel.response.getMsg().isEmpty())
-                    Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
-                mViewModel.response.setMsg("");
 
-            }
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
-            }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.productRoot);
+        mViewModel.liveStateCart.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        break;
 
-            }
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        if (!mViewModel.response.getMsg().isEmpty())
+                            Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
+                        mViewModel.response.setMsg("");
+                        break;
 
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
+                        break;
+
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.productRoot);
+                        break;
+                    default:
+                }
+            }
         });
-    }
 
+    }
 
 
     @Override
@@ -141,13 +201,9 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void ProductClicked(Product model) {
-
-    }
-
-    @Override
     public void addCartClicked(Product model) {
         mViewModel.productId = model.getId().toString();
+        mViewModel.department_id = model.getDepartment_id().toString();
         mViewModel.addCart();
     }
 
@@ -155,5 +211,14 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void removeCartClicked(Product model) {
         mViewModel.productId = model.getId().toString();
         mViewModel.delCart();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.scale_down:
+                binding.loading.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }

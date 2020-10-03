@@ -18,6 +18,7 @@ import com.gift.app.data.models.CartModel;
 import com.gift.app.data.models.Store;
 import com.gift.app.databinding.CartItemBinding;
 import com.gift.app.databinding.StoreItemBinding;
+import com.gift.app.ui.Home.stores.AdapterStores;
 
 import java.util.List;
 
@@ -27,8 +28,6 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
     List<CartModel> list;
     private Context mContext;
     CartCallback cartCallback;
-
-    private static CartItemBinding binding;
 
 
     public AdapterCart(List<CartModel> list, Context mContext
@@ -41,9 +40,8 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CartViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.cart_item, parent, false));
-
+        return new AdapterCart.CartViewHolder(CartItemBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false));
     }
 
     @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
@@ -59,11 +57,11 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
         Glide.with(mContext).load(list.get(position).getPhoto())
                 .apply(options)
-                .into(binding.productImage);
+                .into(holder.binding.productImage);
 
-        binding.productName.setText(list.get(position).getName());
-        binding.productPrice.setText(list.get(position).getPrice());
-        binding.productQuantity.setText(list.get(position).getQty().toString());
+        holder.binding.productName.setText(list.get(position).getName());
+        holder.binding.productPrice.setText(list.get(position).getPrice());
+        holder.binding.productQuantity.setText(list.get(position).getQty().toString());
 
     }
 
@@ -74,11 +72,12 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
 
     class CartViewHolder extends RecyclerView.ViewHolder {
+        private CartItemBinding binding;
 
 
-        CartViewHolder(@NonNull View itemView) {
-            super(itemView);
-            binding = CartItemBinding.bind(itemView);
+        CartViewHolder(@NonNull CartItemBinding cartItemBinding) {
+            super(cartItemBinding.getRoot());
+            binding = cartItemBinding ;
 
             binding.addCartImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,6 +98,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.CartViewHolder
 
     public interface CartCallback {
         void addCartClicked(CartModel model);
+
         void removeCartClicked(CartModel model);
     }
 }

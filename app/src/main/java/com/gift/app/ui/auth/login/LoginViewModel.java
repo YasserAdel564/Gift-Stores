@@ -1,16 +1,11 @@
 package com.gift.app.ui.auth.login;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.blankj.utilcode.util.NetworkUtils;
-import com.bumptech.glide.load.engine.Resource;
-import com.gift.app.App;
-import com.gift.app.data.models.AddFavouriteResponse;
 import com.gift.app.data.models.AuthResponse;
 import com.gift.app.data.storages.remote.RetrofitBuilder;
 import com.gift.app.utils.UiStates;
@@ -27,8 +22,7 @@ public class LoginViewModel extends ViewModel {
 
 
     Boolean isOpen = false;
-    UiStates state = new UiStates();
-    public MutableLiveData<UiStates> liveState = new MutableLiveData<>();
+    public MutableLiveData<String> liveState = new MutableLiveData<>();
     public AuthResponse response;
     public String phoneNumber = null;
 
@@ -36,8 +30,7 @@ public class LoginViewModel extends ViewModel {
     public void login() {
 
         if (!NetworkUtils.isConnected()) {
-            state.onNoConnection = true;
-            liveState.postValue(state);
+            liveState.postValue(UiStates.onNoConnection);
         } else {
             Observable<AuthResponse> observable = RetrofitBuilder.getRetrofit().postLogin(
                     RequestBody.create(MediaType.parse("text/plain"), phoneNumber))
@@ -46,21 +39,18 @@ public class LoginViewModel extends ViewModel {
             Observer<AuthResponse> observer = new Observer<AuthResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-                    state.onLoading = true;
-                    liveState.postValue(state);
+                    liveState.postValue(UiStates.onLoading);
                 }
 
                 @Override
                 public void onNext(AuthResponse value) {
 
                     if (value.getStatus()) {
-                        state.onSuccess = true;
-                        liveState.postValue(state);
+                        liveState.postValue(UiStates.onSuccess);
                         response = value;
 
                     } else {
-                        state.onEmpty = true;
-                        liveState.postValue(state);
+                        liveState.postValue(UiStates.onEmpty);
                         response = value;
                     }
 
@@ -69,9 +59,7 @@ public class LoginViewModel extends ViewModel {
 
                 @Override
                 public void onError(Throwable e) {
-                    state.onError = true;
-                    liveState.postValue(state);
-
+                    liveState.postValue(UiStates.onError);
                 }
 
                 @Override
@@ -86,5 +74,9 @@ public class LoginViewModel extends ViewModel {
 
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+    }
 
 }

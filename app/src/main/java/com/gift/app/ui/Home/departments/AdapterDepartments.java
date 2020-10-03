@@ -23,6 +23,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.gift.app.R;
 import com.gift.app.data.models.Department;
 import com.gift.app.databinding.DepartmentItemBinding;
+import com.gift.app.databinding.ProductItemBinding;
+import com.gift.app.ui.Home.products.AdapterProducts;
 
 import java.util.List;
 
@@ -32,8 +34,6 @@ public class AdapterDepartments extends RecyclerView.Adapter<AdapterDepartments.
     List<Department> list;
     private Context mContext;
     DepartmentCallback depCallback;
-
-    private static DepartmentItemBinding binding;
 
 
     AdapterDepartments(List<Department> list, Context mContext
@@ -46,14 +46,15 @@ public class AdapterDepartments extends RecyclerView.Adapter<AdapterDepartments.
     @NonNull
     @Override
     public DepartmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DepartmentViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.department_item, parent, false));
+        return new AdapterDepartments.DepartmentViewHolder
+                (DepartmentItemBinding.inflate(LayoutInflater.from(parent.getContext()),
+                        parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull DepartmentViewHolder holder, int position) {
 
-        binding.depName.setText(list.get(position).getName());
+        holder.binding.depName.setText(list.get(position).getName());
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -63,7 +64,7 @@ public class AdapterDepartments extends RecyclerView.Adapter<AdapterDepartments.
 
         Glide.with(mContext).load(list.get(position).getPhoto())
                 .apply(options)
-                .into(binding.depImage);
+                .into(holder.binding.depImage);
 
 
     }
@@ -75,11 +76,11 @@ public class AdapterDepartments extends RecyclerView.Adapter<AdapterDepartments.
 
 
     class DepartmentViewHolder extends RecyclerView.ViewHolder {
+        private DepartmentItemBinding binding;
 
-
-        DepartmentViewHolder(@NonNull View itemView) {
-            super(itemView);
-            binding = DepartmentItemBinding.bind(itemView);
+        DepartmentViewHolder(DepartmentItemBinding departmentItemBinding) {
+            super(departmentItemBinding.getRoot());
+            binding = departmentItemBinding;
 
             binding.depItem.setOnClickListener(new View.OnClickListener() {
                 @Override

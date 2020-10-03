@@ -4,6 +4,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -87,39 +88,47 @@ public class DepartmentsFragment extends Fragment implements
     }
 
     private void setUiState() {
-        mViewModel.liveState.observe(getViewLifecycleOwner(), state -> {
+        mViewModel.liveState.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String state) {
+                switch (state) {
+                    case "onLoading":
+                        binding.loading.setVisibility(View.VISIBLE);
+                        binding.depRv.setVisibility(View.GONE);
+                        break;
 
-            if (state.onLoading) {
-                binding.loading.setVisibility(View.VISIBLE);
-                binding.depRv.setVisibility(View.GONE);
-            }
-            if (state.onSuccess) {
-                binding.loading.setVisibility(View.GONE);
-                binding.depRv.setVisibility(View.VISIBLE);
-                onSuccess();
-            }
-            if (state.onEmpty) {
-                binding.loading.setVisibility(View.GONE);
-                binding.emptyViewLayout.setVisibility(View.VISIBLE);
-                binding.depRv.setVisibility(View.GONE);
-            }
-            if (state.onError) {
-                binding.loading.setVisibility(View.GONE);
-                Extensions.generalErrorSnakeBar(binding.drawerLayout);
-                binding.depRv.setVisibility(View.GONE);
-            }
-            if (state.onNoConnection) {
-                binding.loading.setVisibility(View.GONE);
-                binding.depRv.setVisibility(View.GONE);
-                Extensions.noInternetSnakeBar(binding.drawerLayout);
+                    case "onSuccess":
+                        binding.loading.setVisibility(View.GONE);
+                        binding.depRv.setVisibility(View.VISIBLE);
+                        onSuccess();
+                        break;
 
-            }
+                    case "onEmpty":
+                        binding.loading.setVisibility(View.GONE);
+                        binding.emptyViewLayout.setVisibility(View.VISIBLE);
+                        binding.depRv.setVisibility(View.GONE);
+                        break;
 
+                    case "onError":
+                        binding.loading.setVisibility(View.GONE);
+                        Extensions.generalErrorSnakeBar(binding.drawerLayout);
+                        binding.depRv.setVisibility(View.GONE);
+                        break;
+
+                    case "onNoConnection":
+                        binding.loading.setVisibility(View.GONE);
+                        binding.depRv.setVisibility(View.GONE);
+                        Extensions.noInternetSnakeBar(binding.drawerLayout);
+                        break;
+
+                    default:
+                }
+            }
         });
+
     }
 
     private void onSuccess() {
-
         adapter = new AdapterDepartments(mViewModel.listDepartments, requireActivity(), this);
         binding.depRv.setAdapter(adapter);
         adapter.notifyDataSetChanged();

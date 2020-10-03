@@ -17,7 +17,9 @@ import com.gift.app.R;
 import com.gift.app.data.models.Department;
 import com.gift.app.data.models.Store;
 import com.gift.app.databinding.DepartmentItemBinding;
+import com.gift.app.databinding.ProductItemBinding;
 import com.gift.app.databinding.StoreItemBinding;
+import com.gift.app.ui.Home.products.AdapterProducts;
 
 import java.util.List;
 
@@ -27,8 +29,6 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.Department
     List<Store> list;
     private Context mContext;
     StoreCallback storeCallback;
-
-    private static StoreItemBinding binding;
 
 
     public AdapterStores(List<Store> list, Context mContext
@@ -41,8 +41,8 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.Department
     @NonNull
     @Override
     public DepartmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DepartmentViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.store_item, parent, false));
+        return new AdapterStores.DepartmentViewHolder(StoreItemBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false));
 
     }
 
@@ -50,7 +50,7 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.Department
     @Override
     public void onBindViewHolder(@NonNull DepartmentViewHolder holder, int position) {
 
-        binding.storeName.setText(list.get(position).getName());
+        holder.binding.storeName.setText(list.get(position).getName());
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -60,16 +60,16 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.Department
 
         Glide.with(mContext).load(list.get(position).getPhoto())
                 .apply(options)
-                .into(binding.storeLogo);
+                .into(holder.binding.storeLogo);
 
         Glide.with(mContext).load(list.get(position).getCover())
                 .apply(options)
-                .into(binding.storeCover);
+                .into(holder.binding.storeCover);
 
         if (list.get(position).getLiked())
-            binding.addStoreFav.setBackground(mContext.getDrawable(R.drawable.ic_baseline_favorite_24));
+            holder.binding.addStoreFav.setBackground(mContext.getDrawable(R.drawable.ic_baseline_favorite_24));
         else
-            binding.addStoreFav.setBackground(mContext.getDrawable(R.drawable.ic_baseline_favorite_white));
+           holder.binding.addStoreFav.setBackground(mContext.getDrawable(R.drawable.ic_baseline_favorite_white));
 
 
     }
@@ -82,10 +82,11 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.Department
 
     class DepartmentViewHolder extends RecyclerView.ViewHolder {
 
+        private StoreItemBinding binding;
 
-        DepartmentViewHolder(@NonNull View itemView) {
-            super(itemView);
-            binding = StoreItemBinding.bind(itemView);
+        DepartmentViewHolder(StoreItemBinding storeItemBinding) {
+            super(storeItemBinding.getRoot());
+            binding = storeItemBinding;
 
             binding.storeItem.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,6 +107,7 @@ public class AdapterStores extends RecyclerView.Adapter<AdapterStores.Department
 
     public interface StoreCallback {
         void storeCardClicked(Store model);
+
         void favIconClicked(Store model);
 
     }

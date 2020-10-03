@@ -27,8 +27,6 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
     private Context mContext;
     ProductCallback productCallback;
 
-    private static ProductItemBinding binding;
-
 
     AdapterProducts(List<Product> list, Context mContext
             , ProductCallback productCallback) {
@@ -40,16 +38,16 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
     @NonNull
     @Override
     public DepartmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new DepartmentViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.product_item, parent, false));
+        return new DepartmentViewHolder(ProductItemBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false));
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull DepartmentViewHolder holder, int position) {
 
-        binding.productName.setText(list.get(position).getName());
-        binding.productPrice.setText(list.get(position).getPrice());
+        holder.productItemBinding.productName.setText(list.get(position).getName());
+        holder.productItemBinding.productPrice.setText(list.get(position).getPrice());
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
@@ -58,7 +56,7 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
                 .priority(Priority.HIGH);
         Glide.with(mContext).load(list.get(position).getPhoto())
                 .apply(options)
-                .into(binding.productImage);
+                .into(holder.productItemBinding.productImage);
 
 
     }
@@ -69,19 +67,14 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
     }
 
 
-    class DepartmentViewHolder extends RecyclerView.ViewHolder {
+    public class DepartmentViewHolder extends RecyclerView.ViewHolder {
 
+        private ProductItemBinding productItemBinding;
 
-        DepartmentViewHolder(@NonNull View itemView) {
-            super(itemView);
-            binding = ProductItemBinding.bind(itemView);
+        DepartmentViewHolder(@NonNull ProductItemBinding binding) {
+            super(binding.getRoot());
+            productItemBinding = binding ;
 
-            binding.productItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    productCallback.ProductClicked(list.get(getAdapterPosition()));
-                }
-            });
 
             binding.addCartImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,7 +95,6 @@ public class AdapterProducts extends RecyclerView.Adapter<AdapterProducts.Depart
     }
 
     public interface ProductCallback {
-        void ProductClicked(Product model);
         void addCartClicked(Product model);
         void removeCartClicked(Product model);
 

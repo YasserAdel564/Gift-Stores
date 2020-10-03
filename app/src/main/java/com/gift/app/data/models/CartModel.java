@@ -14,6 +14,27 @@ public class CartModel {
     @Json(name = "photo")
     private String photo;
 
+    @Json(name = "store_id")
+    private Integer store_id;
+    @Json(name = "department_id")
+    private Integer department_id;
+
+    public Integer getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(Integer store_id) {
+        this.store_id = store_id;
+    }
+
+    public Integer getDepartment_id() {
+        return department_id;
+    }
+
+    public void setDepartment_id(Integer department_id) {
+        this.department_id = department_id;
+    }
+
     public Integer getId() {
         return id;
     }
