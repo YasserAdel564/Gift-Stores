@@ -115,7 +115,7 @@ public class RegisterFragment extends Fragment {
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mViewModel.response.getMsg().isEmpty())
-                            Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
+                            Extensions.generalMessage(binding.registerRoot, mViewModel.response.getMsg());
                         goToActivation();
                         App.getPreferencesHelper().setUserMobile(mViewModel.response.getData().getMobile());
                         App.getPreferencesHelper().setUserName(mViewModel.response.getData().getName());
@@ -124,7 +124,7 @@ public class RegisterFragment extends Fragment {
                     case "onEmpty":
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.registerRoot, mViewModel.response.getMsg());
+                        Extensions.generalMessage(binding.registerRoot, mViewModel.response.getMsg());
                         break;
 
                     case "onNoConnection":

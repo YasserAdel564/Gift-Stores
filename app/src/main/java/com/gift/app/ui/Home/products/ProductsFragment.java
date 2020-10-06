@@ -99,7 +99,7 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 if (App.getPreferencesHelper().getIsLogin())
                     goToChat();
                 else
-                    Extensions.Success(binding.productRoot, requireActivity().getString(R.string.should_Login));
+                    Extensions.generalMessage(binding.productRoot, requireActivity().getString(R.string.should_Login));
             }
         });
         binding.cartImgV.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +108,7 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
                 if (App.getPreferencesHelper().getIsLogin())
                     goToCart();
                 else
-                    Extensions.Success(binding.productRoot, requireActivity().getString(R.string.should_Login));
+                    Extensions.generalMessage(binding.productRoot, requireActivity().getString(R.string.should_Login));
             }
         });
     }
@@ -172,13 +172,13 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mViewModel.response.getMsg().isEmpty())
-                            Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
+                            Extensions.generalMessage(binding.productRoot, mViewModel.response.getMsg());
                         mViewModel.response.setMsg("");
                         break;
 
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.productRoot, mViewModel.response.getMsg());
+                        Extensions.generalMessage(binding.productRoot, mViewModel.response.getMsg());
                         break;
 
                     case "onNoConnection":

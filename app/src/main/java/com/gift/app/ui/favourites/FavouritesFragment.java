@@ -3,14 +3,12 @@ package com.gift.app.ui.favourites;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -123,13 +121,13 @@ public class FavouritesFragment extends Fragment implements AdapterStores.StoreC
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mFavViewModel.response.getMsg().isEmpty())
-                            Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
+                            Extensions.generalMessage(binding.storesRoot, mFavViewModel.response.getMsg());
                         mViewModel.getFavourites();
                         mFavViewModel.response.setMsg("");
                         break;
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
+                        Extensions.generalMessage(binding.storesRoot, mFavViewModel.response.getMsg());
                         break;
 
                     case "onNoConnection":

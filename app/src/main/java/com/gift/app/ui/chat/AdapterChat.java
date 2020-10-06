@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,6 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
     List<ChatModel> list;
     private Context mContext;
 
-
     public AdapterChat(List<ChatModel> list, Context mContext) {
         this.list = list;
         this.mContext = mContext;
@@ -56,8 +56,9 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (list.get(position).getSender().equals("admin")) return 1;
-        else return 0;
+//        if (list.get(position).getSender().equals("admin")) return 1;
+//        else
+        return 0;
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -82,7 +83,19 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
                     .apply(options)
                     .into(holder.messageImage);
         else
-            holder.imageCard.setVisibility(View.GONE);
+            holder.messageImage.setVisibility(View.GONE);
+
+
+        holder.messageImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                holder.messageImage.setLayoutParams(new ConstraintLayout.LayoutParams
+                        (ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT));
+                holder.messageImage.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            }
+        });
 
 
     }
@@ -94,7 +107,6 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
 
 
     static class ChatViewHolder extends RecyclerView.ViewHolder {
-        private CardView imageCard;
         private ImageView messageImage;
         private TextView messageText;
         private TextView messageDate;
@@ -103,7 +115,6 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
 
         ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageCard = itemView.findViewById(R.id.imageCard);
             messageImage = itemView.findViewById(R.id.imageMessage);
             messageText = itemView.findViewById(R.id.message);
             messageDate = itemView.findViewById(R.id.messageDate);

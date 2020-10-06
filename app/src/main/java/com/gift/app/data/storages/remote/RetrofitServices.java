@@ -77,7 +77,7 @@ public interface RetrofitServices {
     Observable<PostChatResponse> postChat(
             @Part("mobile") RequestBody mobile,
             @Part("message") RequestBody message,
-            @Part("photo") MultipartBody.Part photo
+            @Part MultipartBody.Part photo
     );
 
 

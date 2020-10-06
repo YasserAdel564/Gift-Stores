@@ -1,10 +1,12 @@
 package com.gift.app.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.gift.app.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,7 +36,7 @@ public class Extensions {
                 .show();
     }
 
-    public static void Success(View view, String message) {
+    public static void generalMessage(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .show();
     }
@@ -46,24 +48,9 @@ public class Extensions {
         context.startActivity(intent);
     }
 
-    public static Boolean checkInServices() {
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-
-        Date StartTime = null;
-        Date EndTime = null;
-        Date CurrentTime = null;
-        try {
-            StartTime = dateFormat.parse("08:00");
-            EndTime = dateFormat.parse("21:58");
-            CurrentTime = dateFormat.parse(dateFormat.format(new Date()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        assert CurrentTime != null;
-        return CurrentTime.before(EndTime) && CurrentTime.after(StartTime);
-
+    public static void hideKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 
 }

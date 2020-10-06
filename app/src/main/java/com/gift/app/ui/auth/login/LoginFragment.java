@@ -3,7 +3,6 @@ package com.gift.app.ui.auth.login;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 
@@ -12,14 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.gift.app.App;
 import com.gift.app.R;
-import com.gift.app.databinding.LanguageFragmentBinding;
 import com.gift.app.databinding.LoginFragmentBinding;
 import com.gift.app.utils.Extensions;
 
@@ -107,7 +104,7 @@ public class LoginFragment extends Fragment {
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mViewModel.response.getMsg().isEmpty())
-                            Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
+                            Extensions.generalMessage(binding.loginRoot, mViewModel.response.getMsg());
                         Navigation.findNavController(requireActivity(), R.id.host_fragment)
                                 .navigate(R.id.action_from_loginFragment_to_otpFragment);
                         App.getPreferencesHelper().setUserMobile(mViewModel.response.getData().getMobile());
@@ -117,7 +114,7 @@ public class LoginFragment extends Fragment {
                     case "onEmpty":
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.loginRoot, mViewModel.response.getMsg());
+                        Extensions.generalMessage(binding.loginRoot, mViewModel.response.getMsg());
                         break;
 
                     case "onNoConnection":

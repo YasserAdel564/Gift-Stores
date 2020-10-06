@@ -3,28 +3,23 @@ package com.gift.app.ui.cart;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gift.app.App;
 import com.gift.app.R;
 import com.gift.app.data.models.CartModel;
 import com.gift.app.databinding.CartFragmentBinding;
 import com.gift.app.ui.Home.products.ProductsViewModel;
-import com.gift.app.ui.Home.stores.AdapterStores;
 import com.gift.app.utils.Extensions;
 
 public class CartFragment extends Fragment implements AdapterCart.CartCallback, SwipeRefreshLayout.OnRefreshListener {
@@ -146,13 +141,13 @@ public class CartFragment extends Fragment implements AdapterCart.CartCallback, 
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mViewModel.response.getMsg().isEmpty())
-                            Extensions.Success(binding.storesRoot, mViewModel.responseOrder.getMsg());
+                            Extensions.generalMessage(binding.storesRoot, mViewModel.responseOrder.getMsg());
                         mViewModel.getCart();
                         mViewModel.response.setMsg("");
                         break;
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.storesRoot, mViewModel.responseOrder.getMsg());
+                        Extensions.generalMessage(binding.storesRoot, mViewModel.responseOrder.getMsg());
                         break;
 
                     case "onNoConnection":
@@ -181,13 +176,13 @@ public class CartFragment extends Fragment implements AdapterCart.CartCallback, 
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mViewModelProducts.response.getMsg().isEmpty())
-                            Extensions.Success(binding.storesRoot, mViewModelProducts.response.getMsg());
+                            Extensions.generalMessage(binding.storesRoot, mViewModelProducts.response.getMsg());
                         mViewModel.getCart();
                         mViewModelProducts.response.setMsg("");
                         break;
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.storesRoot, mViewModel.responseOrder.getMsg());
+                        Extensions.generalMessage(binding.storesRoot, mViewModel.responseOrder.getMsg());
                         break;
 
                     case "onNoConnection":

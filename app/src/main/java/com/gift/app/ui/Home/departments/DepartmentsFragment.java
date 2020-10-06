@@ -21,16 +21,13 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.gift.app.App;
@@ -198,7 +195,7 @@ public class DepartmentsFragment extends Fragment implements
                 if (App.getPreferencesHelper().getIsLogin())
                     goToChat();
                 else
-                    Extensions.Success(binding.drawerLayout, requireActivity().getString(R.string.should_Login));
+                    Extensions.generalMessage(binding.drawerLayout, requireActivity().getString(R.string.should_Login));
             }
         });
         binding.cartImgV.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +204,7 @@ public class DepartmentsFragment extends Fragment implements
                 if (App.getPreferencesHelper().getIsLogin())
                     goToCart();
                 else
-                    Extensions.Success(binding.drawerLayout, requireActivity().getString(R.string.should_Login));
+                    Extensions.generalMessage(binding.drawerLayout, requireActivity().getString(R.string.should_Login));
             }
         });
     }

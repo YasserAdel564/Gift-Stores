@@ -112,7 +112,7 @@ public class StoresFragment extends Fragment implements AdapterStores.StoreCallb
                 if (App.getPreferencesHelper().getIsLogin())
                     goToChat();
                 else
-                    Extensions.Success(binding.storesRoot, requireActivity().getString(R.string.should_Login));
+                    Extensions.generalMessage(binding.storesRoot, requireActivity().getString(R.string.should_Login));
             }
         });
         binding.cartImgV.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class StoresFragment extends Fragment implements AdapterStores.StoreCallb
                 if (App.getPreferencesHelper().getIsLogin())
                     goToCart();
                 else
-                    Extensions.Success(binding.storesRoot, requireActivity().getString(R.string.should_Login));
+                    Extensions.generalMessage(binding.storesRoot, requireActivity().getString(R.string.should_Login));
             }
         });
 
@@ -202,13 +202,13 @@ public class StoresFragment extends Fragment implements AdapterStores.StoreCallb
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         if (!mFavViewModel.response.getMsg().isEmpty())
-                            Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
+                            Extensions.generalMessage(binding.storesRoot, mFavViewModel.response.getMsg());
                         mViewModel.getStores();
                         mFavViewModel.response.setMsg("");
                         break;
                     case "onError":
                         binding.loading.setVisibility(View.GONE);
-                        Extensions.Success(binding.storesRoot, mFavViewModel.response.getMsg());
+                        Extensions.generalMessage(binding.storesRoot, mFavViewModel.response.getMsg());
                         break;
 
                     case "onNoConnection":

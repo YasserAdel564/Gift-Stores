@@ -27,10 +27,11 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class ChatViewModel extends ViewModel {
+
+    Boolean isOpen = false;
     public MutableLiveData<String> liveState = new MutableLiveData<>();
     public List<ChatModel> List;
     private String phoneNumber = App.getPreferencesHelper().getUserMobile();
-
 
     @SuppressLint("CheckResult")
     public void getChat() {
@@ -85,13 +86,14 @@ public class ChatViewModel extends ViewModel {
     public String chatPhoto;
     MultipartBody.Part body;
 
+
     @SuppressLint("CheckResult")
     public void postChat() {
 
         if (chatPhoto != null) {
-            File file = new File("chatPhoto");
+            File file = new File(chatPhoto);
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+            body = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
         }
 
         if (!NetworkUtils.isConnected()) {
@@ -100,18 +102,17 @@ public class ChatViewModel extends ViewModel {
             Observable<PostChatResponse> observable = RetrofitBuilder.getRetrofit().postChat(
                     RequestBody.create(MediaType.parse("text/plain"), phoneNumber),
                     RequestBody.create(MediaType.parse("text/plain"), chatMessage),
-                    null
+                    body
             )
                     .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             Observer<PostChatResponse> observer = new Observer<PostChatResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
                     liveStatePost.postValue(UiStates.onLoading);
-                }
+             }
 
                 @Override
                 public void onNext(PostChatResponse value) {
-
                     if (value.getStatus())
                         liveStatePost.postValue(UiStates.onSuccess);
                     else
@@ -132,6 +133,7 @@ public class ChatViewModel extends ViewModel {
             };
 
             observable.subscribeWith(observer);
+            body = null;
 
         }
 

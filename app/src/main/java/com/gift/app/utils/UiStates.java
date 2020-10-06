@@ -2,9 +2,10 @@ package com.gift.app.utils;
 
 
 public class UiStates {
-    public Boolean onLoading = false;
-    public Boolean onSuccess = false;
-    public Boolean onEmpty = false;
-    public Boolean onNoConnection = false;
-    public Boolean onError = false;
+    public static String onLoading = "onLoading";
+    public static String onSuccess = "onSuccess";
+    public static String onEmpty = "onEmpty";
+    public static String onNoConnection = "onNoConnection";
+    public static String onError = "onError";
 }
+

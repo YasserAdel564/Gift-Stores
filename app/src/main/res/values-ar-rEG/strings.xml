@@ -81,4 +81,13 @@
     <string name="delivery_price">سعر التوصيل</string>
     <string name="order_price">سعر الطلب</string>
     <string name="total_price">السعر الكلي</string>
+
+    <string name="take_a_picture">التقاط صوره</string>
+    <string name="open_gallery">فتح معرض الصور</string>
+    <string name="permissions">يحتاج التطبيق لبعض الأوذونات</string>
+    <string name="permission_gallery">التطبيق لايستطيع فتح معرض الصور</string>
+    <string name="permission_camers">التطبيق لايستطيع فتح الكاميرا</string>
+
+    <string name="accept">أوافق</string>
+    <string name="deny">أرفض</string>
 </resources>
