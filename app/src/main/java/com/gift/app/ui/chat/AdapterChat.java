@@ -56,9 +56,8 @@ public class AdapterChat extends RecyclerView.Adapter<AdapterChat.ChatViewHolder
 
     @Override
     public int getItemViewType(int position) {
-//        if (list.get(position).getSender().equals("admin")) return 1;
-//        else
-        return 0;
+        if (list.get(position).getSender().equals("admin")) return 1;
+        else return 0;
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

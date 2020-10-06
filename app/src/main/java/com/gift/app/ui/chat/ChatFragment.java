@@ -135,6 +135,7 @@ public class ChatFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     case "onSuccess":
                         binding.loading.setVisibility(View.GONE);
                         binding.chatRv.setVisibility(View.VISIBLE);
+                        binding.emptyView.setVisibility(View.GONE);
                         onSuccess();
                         break;
 
