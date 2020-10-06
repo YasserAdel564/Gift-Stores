@@ -48,12 +48,12 @@ public class RegisterViewModel extends ViewModel {
 
                 @Override
                 public void onNext(AuthResponse value) {
+                    response = value;
 
                     if (value.getStatus()) {
-                        response = value;
                         liveState.postValue(UiStates.onSuccess);
                     } else
-                        liveState.postValue(UiStates.onLoading);
+                        liveState.postValue(UiStates.onEmpty);
 
                 }
 
