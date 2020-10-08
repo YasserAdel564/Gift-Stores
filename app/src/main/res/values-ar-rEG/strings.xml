@@ -90,4 +90,10 @@
 
     <string name="accept">أوافق</string>
     <string name="deny">أرفض</string>
+
+
+    <string name="to">إلي</string>
+    <string name="out_of_service">نأسف التطبيق خارج ساعات العمل الرسميه التي تبدأ من</string>
+
+
 </resources>

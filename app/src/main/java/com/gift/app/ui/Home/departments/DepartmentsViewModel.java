@@ -50,6 +50,9 @@ public class DepartmentsViewModel extends ViewModel {
                 public void onNext(DepartmentsResponse value) {
 
                     if (value.getData().size() > 0) {
+                        App.getPreferencesHelper().setInServices(value.getOpen());
+                        App.getPreferencesHelper().setOpenFrom(value.getOpen_from().subSequence(0,5).toString());
+                        App.getPreferencesHelper().setOpenTo(value.getOpen_to().subSequence(0,5).toString());
                         listDepartments = value.getData();
                         liveState.postValue(UiStates.onSuccess);
                     } else

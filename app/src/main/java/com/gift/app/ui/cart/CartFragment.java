@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gift.app.App;
 import com.gift.app.R;
 import com.gift.app.data.models.CartModel;
 import com.gift.app.databinding.CartFragmentBinding;
@@ -123,7 +124,13 @@ public class CartFragment extends Fragment implements AdapterCart.CartCallback, 
         binding.confirmTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.addOrder();
+                if (App.getPreferencesHelper().getInServices())
+                    mViewModel.addOrder();
+                else {
+                    String message = requireActivity().getString(R.string.out_of_service) + " " + App.getPreferencesHelper().getOpenFrom() +
+                            " "+ requireActivity().getString(R.string.to) + " " + App.getPreferencesHelper().getOpenTo();
+                    Extensions.generalMessage(binding.storesRoot, message);
+                }
             }
         });
     }

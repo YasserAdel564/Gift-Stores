@@ -16,7 +16,8 @@ public class SharedPreference {
     private static final String PREF_KEY_USER_Address = "address";
     private static final String PREF_KEY_LOGIN = "isLogin";
     private static final String PREF_OUT_OF_SERVICES = "outServices";
-
+    private static final String PREF_KEY_OPEN_FROM = "from";
+    private static final String PREF_KEY_OPEN_TO = "to";
 
     public SharedPreference(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
@@ -94,6 +95,26 @@ public class SharedPreference {
     public Boolean getInServices() {
         return mSharedPreferences.getBoolean(PREF_OUT_OF_SERVICES, true);
     }
+
+
+
+    public void setOpenFrom(String from) {
+        mSharedPreferences.edit().putString(PREF_KEY_OPEN_FROM, from).apply();
+    }
+
+    public String getOpenFrom() {
+        return mSharedPreferences.getString(PREF_KEY_OPEN_FROM, "");
+    }
+
+    public void setOpenTo(String to) {
+        mSharedPreferences.edit().putString(PREF_KEY_OPEN_TO, to).apply();
+    }
+
+    public String getOpenTo() {
+        return mSharedPreferences.getString(PREF_KEY_OPEN_TO, "");
+    }
+
+
 
 
 }

@@ -96,4 +96,7 @@
     <string name="accept">Accept</string>
     <string name="deny">Deny</string>
 
+    <string name="to">to</string>
+    <string name="out_of_service">Sorry ,The App is out of Working Hours that starts From</string>
+
 </resources>

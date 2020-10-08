@@ -31,7 +31,7 @@ import com.gift.app.ui.Home.SharedViewModel;
 import com.gift.app.utils.Extensions;
 
 public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
-        , AdapterProducts.ProductCallback, View.OnClickListener {
+        , AdapterProducts.ProductCallback {
 
     private ProductsViewModel mViewModel;
     private SharedViewModel mSharedViewModel;
@@ -202,23 +202,28 @@ public class ProductsFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void addCartClicked(Product model) {
-        mViewModel.productId = model.getId().toString();
-        mViewModel.department_id = model.getDepartment_id().toString();
-        mViewModel.addCart();
+
+        if (App.getPreferencesHelper().getInServices()) {
+            mViewModel.productId = model.getId().toString();
+            mViewModel.department_id = model.getDepartment_id().toString();
+            mViewModel.addCart();
+        } else {
+            String message = requireActivity().getString(R.string.out_of_service) + " " + App.getPreferencesHelper().getOpenFrom() +
+                    " "+ requireActivity().getString(R.string.to) + " " + App.getPreferencesHelper().getOpenTo();
+            Extensions.generalMessage(binding.productRoot, message);
+        }
     }
 
     @Override
     public void removeCartClicked(Product model) {
-        mViewModel.productId = model.getId().toString();
-        mViewModel.delCart();
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.scale_down:
-                binding.loading.setVisibility(View.VISIBLE);
-                break;
+        if (App.getPreferencesHelper().getInServices()) {
+            mViewModel.productId = model.getId().toString();
+            mViewModel.delCart();
+        } else {
+            String message = requireActivity().getString(R.string.out_of_service) + " " + App.getPreferencesHelper().getOpenFrom() +
+                   " "+ requireActivity().getString(R.string.to) + " " + App.getPreferencesHelper().getOpenTo();
+            Extensions.generalMessage(binding.productRoot, message);
         }
     }
+
 }

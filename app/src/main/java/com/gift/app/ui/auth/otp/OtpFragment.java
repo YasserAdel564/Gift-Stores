@@ -89,10 +89,11 @@ public class OtpFragment extends Fragment {
                 binding.CodeEt.setText(code);
             } else
                 Extensions.generalErrorSnakeBar(binding.otpLayout);
+
         }
 
         @Override
-        public void onVerificationFailed(FirebaseException e) {
+        public void onVerificationFailed(@NotNull FirebaseException e) {
             Extensions.generalErrorSnakeBar(binding.otpLayout);
         }
 
